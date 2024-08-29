@@ -139,22 +139,32 @@ public class frmDangNhap extends javax.swing.JFrame {
             String dbPassword = "vungnuoi"; 
             connection = DriverManager.getConnection(url, dbUser, dbPassword);
 
-            String sql = "{call KiemTraDangNhap(?, ?, ?)}";
+            String sql = "{call KiemTraDangNhap(?, ?, ?, ?)}";
             stmt = connection.prepareCall(sql);
 
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
+            stmt.registerOutParameter(4, java.sql.Types.VARCHAR);
 
             stmt.execute();
 
             String result = stmt.getString(3);
+            String role = stmt.getString(4);
 
             if ("SUCCESS".equals(result)) {
-                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-                frmQLKhachHang qlKhachHangFrame = new frmQLKhachHang();
-                qlKhachHangFrame.setVisible(true);
+                if ("ADMIN".equals(role)) {
+                    System.out.println("Xin chào Admin");
+                    this.dispose();
+                    frmQLKhachHang qlKhachHangFrame = new frmQLKhachHang();
+                    qlKhachHangFrame.setVisible(true);
+                } else {
+                    System.out.println("Xin chào Khách hàng");
+                    // hien tghi frm nguoi dung (doi sau)
+                    this.dispose();
+                    frmQLKhachHang qlKhachHangFrame = new frmQLKhachHang();
+                    qlKhachHangFrame.setVisible(true);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Tài khoản hoặc mật khẩu không chính xác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
@@ -162,7 +172,7 @@ public class frmDangNhap extends javax.swing.JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Lỗi kết nối cơ sở dữ liệu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         } finally {
-            // dong ket noi
+            // Đóng kết nối
             try {
                 if (stmt != null) stmt.close();
                 if (connection != null) connection.close();

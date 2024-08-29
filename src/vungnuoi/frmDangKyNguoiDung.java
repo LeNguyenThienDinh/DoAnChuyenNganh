@@ -41,7 +41,7 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("ĐĂNG KÝ NGƯỜI DÙNG");
+        jLabel1.setText("ĐĂNG KÝ KHÁCH HÀNG");
 
         jLabel2.setText("Tài Khoản đăng nhập");
 

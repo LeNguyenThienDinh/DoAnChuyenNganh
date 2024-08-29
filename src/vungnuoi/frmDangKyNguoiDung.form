@@ -77,7 +77,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x110;&#x102;NG K&#xdd; NG&#x1af;&#x1edc;I D&#xd9;NG"/>
+        <Property name="text" type="java.lang.String" value="&#x110;&#x102;NG K&#xdd; KH&#xc1;CH H&#xc0;NG"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
