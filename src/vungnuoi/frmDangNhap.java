@@ -37,7 +37,6 @@ public class frmDangNhap extends javax.swing.JFrame {
         txtMatKhau = new javax.swing.JTextField();
         btn_DangNhap = new javax.swing.JButton();
         btn_DangXuat = new javax.swing.JButton();
-        btn_DangKy = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,13 +56,6 @@ public class frmDangNhap extends javax.swing.JFrame {
         });
 
         btn_DangXuat.setText("Đóng");
-
-        btn_DangKy.setText("Đăng ký người dùng");
-        btn_DangKy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_DangKyActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,10 +81,7 @@ public class frmDangNhap extends javax.swing.JFrame {
                         .addGap(191, 191, 191)
                         .addComponent(btn_DangNhap)
                         .addGap(108, 108, 108)
-                        .addComponent(btn_DangXuat))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(254, 254, 254)
-                        .addComponent(btn_DangKy)))
+                        .addComponent(btn_DangXuat)))
                 .addContainerGap(208, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -112,9 +101,7 @@ public class frmDangNhap extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_DangNhap)
                     .addComponent(btn_DangXuat))
-                .addGap(18, 18, 18)
-                .addComponent(btn_DangKy)
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         pack();
@@ -182,12 +169,6 @@ public class frmDangNhap extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_DangNhapActionPerformed
 
-    private void btn_DangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DangKyActionPerformed
-        this.dispose();
-        frmDangKyNguoiDung dangKyFrame = new frmDangKyNguoiDung();
-        dangKyFrame.setVisible(true);
-    }//GEN-LAST:event_btn_DangKyActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -224,7 +205,6 @@ public class frmDangNhap extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_DangKy;
     private javax.swing.JButton btn_DangNhap;
     private javax.swing.JButton btn_DangXuat;
     private javax.swing.JLabel jLabel1;
