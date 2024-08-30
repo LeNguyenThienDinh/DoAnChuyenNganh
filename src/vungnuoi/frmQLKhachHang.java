@@ -94,6 +94,7 @@ public class frmQLKhachHang extends javax.swing.JFrame {
         btn_XoaTaikhoan = new javax.swing.JButton();
         btn_ChinhSuaTaiKhoan = new javax.swing.JButton();
         btn_DangXuat = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,6 +136,11 @@ public class frmQLKhachHang extends javax.swing.JFrame {
         jScrollPane2.setViewportView(table_khachhang);
 
         btn_XoaTaikhoan.setText("Xóa tài khoản");
+        btn_XoaTaikhoan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_XoaTaikhoanActionPerformed(evt);
+            }
+        });
 
         btn_ChinhSuaTaiKhoan.setText("Chỉnh sửa tài khoản");
         btn_ChinhSuaTaiKhoan.addActionListener(new java.awt.event.ActionListener() {
@@ -149,6 +155,8 @@ public class frmQLKhachHang extends javax.swing.JFrame {
                 btn_DangXuatActionPerformed(evt);
             }
         });
+
+        jButton1.setText("Theo dõi chi phí");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,14 +174,15 @@ public class frmQLKhachHang extends javax.swing.JFrame {
                             .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_DkyTaiKhoan)
+                            .addComponent(jLabel1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btn_DkyTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_ChinhSuaTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_XoaTaikhoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel1)
-                                .addComponent(btn_ChinhSuaTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                                .addComponent(btn_XoaTaikhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -185,23 +194,21 @@ public class frmQLKhachHang extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 1, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addComponent(btn_DkyTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_ChinhSuaTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_XoaTaikhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -236,6 +243,52 @@ public class frmQLKhachHang extends javax.swing.JFrame {
         frmChinhSuaTaiKhoan chinhSuaFrame = new frmChinhSuaTaiKhoan(username, tenKhachHang, diaChi, sdt);
         chinhSuaFrame.setVisible(true);
     }//GEN-LAST:event_btn_ChinhSuaTaiKhoanActionPerformed
+
+    private void btn_XoaTaikhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XoaTaikhoanActionPerformed
+        int selectedRow = table_thongtinKH.getSelectedRow();
+
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một khách hàng để xóa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String maKH = table_thongtinKH.getValueAt(selectedRow, 1).toString();
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa khách hàng có mã: " + maKH + "?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            Connection connection = null;
+            Statement stmt = null;
+            try {
+                String url = "jdbc:oracle:thin:@localhost:1521:xe";
+                String dbUser = "C##VUNGNUOI";
+                String dbPassword = "vungnuoi";
+                connection = DriverManager.getConnection(url, dbUser, dbPassword);
+
+                String sql = "DELETE FROM KhachHang WHERE MaKH = '" + maKH + "'";
+                stmt = connection.createStatement();
+                int rowsAffected = stmt.executeUpdate(sql);
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "Xóa khách hàng thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    loadCustomerData();  
+                } else {
+                    JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng để xóa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Lỗi khi xóa khách hàng.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (connection != null) connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_XoaTaikhoanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,6 +330,7 @@ public class frmQLKhachHang extends javax.swing.JFrame {
     private javax.swing.JButton btn_DangXuat;
     private javax.swing.JButton btn_DkyTaiKhoan;
     private javax.swing.JButton btn_XoaTaikhoan;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

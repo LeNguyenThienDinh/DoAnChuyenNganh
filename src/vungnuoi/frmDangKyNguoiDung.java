@@ -38,6 +38,12 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
         DKY_TaiKhoan = new javax.swing.JTextField();
         DKY_MatKhau = new javax.swing.JTextField();
         btn_DangKy = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txt_TenKhachHang = new javax.swing.JTextField();
+        txt_DiaChi = new javax.swing.JTextField();
+        txt_SoDienThoai = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,6 +60,12 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Tên khách hàng");
+
+        jLabel5.setText("Địa chỉ");
+
+        jLabel6.setText("Số điện thoại");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -64,18 +76,23 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
                         .addGap(87, 87, 87)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(DKY_TaiKhoan)
-                            .addComponent(DKY_MatKhau, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)))
+                            .addComponent(DKY_MatKhau, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(txt_TenKhachHang)
+                            .addComponent(txt_DiaChi)
+                            .addComponent(txt_SoDienThoai)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(135, 135, 135)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(btn_DangKy)))))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(btn_DangKy)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -92,8 +109,20 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(DKY_MatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_TenKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txt_DiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txt_SoDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(btn_DangKy)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(40, 40, 40))
         );
 
         pack();
@@ -106,21 +135,28 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
 
         String username = DKY_TaiKhoan.getText();
         String password = DKY_MatKhau.getText();
-        String role = "USER"; // Hoặc giá trị role tương ứng (ví dụ: "ADMIN")
+        String tenKhachHang = txt_TenKhachHang.getText();
+        String diaChi = txt_DiaChi.getText();
+        String soDienThoai = txt_SoDienThoai.getText();
+        String role = "USER"; 
 
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tài khoản và mật khẩu không được để trống.");
+        if (username.isEmpty() || password.isEmpty() || tenKhachHang.isEmpty() || diaChi.isEmpty() || soDienThoai.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin.");
             return;
         }
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, dbUsername, dbPassword);
-             CallableStatement callableStatement = connection.prepareCall("{call Tao_NguoiDung(?, ?, ?)}")) {
+             CallableStatement callableStatement = connection.prepareCall("{call Tao_NguoiDung(?, ?, ?, ?, ?, ?)}")) {
 
+            
             callableStatement.setString(1, username);
             callableStatement.setString(2, password);
-            callableStatement.setString(3, role);
+            callableStatement.setString(3, tenKhachHang);
+            callableStatement.setString(4, diaChi);
+            callableStatement.setString(5, soDienThoai);
+            callableStatement.setString(6, role);
 
-            // Gọi thực thi procedure
+            
             callableStatement.execute();
 
             JOptionPane.showMessageDialog(this, "Người dùng đã được tạo thành công.");
@@ -178,5 +214,11 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JTextField txt_DiaChi;
+    private javax.swing.JTextField txt_SoDienThoai;
+    private javax.swing.JTextField txt_TenKhachHang;
     // End of variables declaration//GEN-END:variables
 }
