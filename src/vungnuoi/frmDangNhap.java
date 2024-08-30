@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class frmDangNhap extends javax.swing.JFrame {
 
+    private boolean showPassword = false;
     /**
      * Creates new form frmDangNhap
      */
@@ -34,9 +35,10 @@ public class frmDangNhap extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtTaiKhoan = new javax.swing.JTextField();
-        txtMatKhau = new javax.swing.JTextField();
         btn_DangNhap = new javax.swing.JButton();
         btn_DangXuat = new javax.swing.JButton();
+        txtMatKhau = new javax.swing.JPasswordField();
+        btn_ShowPassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +59,13 @@ public class frmDangNhap extends javax.swing.JFrame {
 
         btn_DangXuat.setText("Đóng");
 
+        btn_ShowPassword.setText("👁");
+        btn_ShowPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ShowPasswordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,14 +84,16 @@ public class frmDangNhap extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(115, 115, 115)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtTaiKhoan)
-                                    .addComponent(txtMatKhau, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)))))
+                                    .addComponent(txtTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                                    .addComponent(txtMatKhau))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_ShowPassword))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(191, 191, 191)
                         .addComponent(btn_DangNhap)
                         .addGap(108, 108, 108)
                         .addComponent(btn_DangXuat)))
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,11 +104,13 @@ public class frmDangNhap extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_ShowPassword)))
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_DangNhap)
                     .addComponent(btn_DangXuat))
@@ -109,9 +122,9 @@ public class frmDangNhap extends javax.swing.JFrame {
 
     private void btn_DangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DangNhapActionPerformed
         String username = txtTaiKhoan.getText().trim();
-        String password = txtMatKhau.getText().trim();
+        char[] passwordChars = txtMatKhau.getPassword();
+        String password = new String(passwordChars);
 
-        // Kiểm tra các trường hợp nhập rỗng
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Tài khoản và mật khẩu không được để trống.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
@@ -120,7 +133,7 @@ public class frmDangNhap extends javax.swing.JFrame {
         Connection connection = null;
         CallableStatement stmt = null;
         try {
-            // Tạo kết nối đến cơ sở dữ liệu Oracle
+
             String url = "jdbc:oracle:thin:@localhost:1521:xe"; 
             String dbUser = "C##VUNGNUOI"; 
             String dbPassword = "vungnuoi"; 
@@ -168,6 +181,17 @@ public class frmDangNhap extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_DangNhapActionPerformed
 
+    private void btn_ShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ShowPasswordActionPerformed
+        if (showPassword) {
+            txtMatKhau.setEchoChar('*');
+            btn_ShowPassword.setText("👁");
+        } else {
+            txtMatKhau.setEchoChar((char)0);
+            btn_ShowPassword.setText("x");
+        }
+        showPassword = !showPassword;
+    }//GEN-LAST:event_btn_ShowPasswordActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -206,10 +230,11 @@ public class frmDangNhap extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_DangNhap;
     private javax.swing.JButton btn_DangXuat;
+    private javax.swing.JButton btn_ShowPassword;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtMatKhau;
+    private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtTaiKhoan;
     // End of variables declaration//GEN-END:variables
 }
