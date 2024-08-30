@@ -232,7 +232,7 @@ public class frmQLKhachHang extends javax.swing.JFrame {
         String tenKhachHang = table_thongtinKH.getValueAt(selectedRow, 2).toString();
         String diaChi = table_thongtinKH.getValueAt(selectedRow, 3).toString();
         String sdt = table_thongtinKH.getValueAt(selectedRow, 4).toString();
-
+        this.dispose();
         frmChinhSuaTaiKhoan chinhSuaFrame = new frmChinhSuaTaiKhoan(username, tenKhachHang, diaChi, sdt);
         chinhSuaFrame.setVisible(true);
     }//GEN-LAST:event_btn_ChinhSuaTaiKhoanActionPerformed

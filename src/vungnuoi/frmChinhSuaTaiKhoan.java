@@ -64,6 +64,8 @@ public class frmChinhSuaTaiKhoan extends javax.swing.JFrame {
 
         jLabel6.setText("CHỈNH SỬA THÔNG TIN KHÁCH HÀNG");
 
+        txt_EditTenDangNhap.setEnabled(false);
+
         btn_UpdateKH.setText("Cập nhật");
         btn_UpdateKH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
