@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -246,47 +247,41 @@ public class frmQLKhachHang extends javax.swing.JFrame {
 
     private void btn_XoaTaikhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XoaTaikhoanActionPerformed
         int selectedRow = table_thongtinKH.getSelectedRow();
-
-        if (selectedRow < 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn một khách hàng để xóa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản để xóa.");
             return;
         }
 
-        String maKH = table_thongtinKH.getValueAt(selectedRow, 1).toString();
+        String username = table_thongtinKH.getValueAt(selectedRow, 0).toString();
 
-        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa khách hàng có mã: " + maKH + "?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa tài khoản " + username + " không?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
 
-        if (confirm == JOptionPane.YES_OPTION) {
-            Connection connection = null;
-            Statement stmt = null;
-            try {
-                String url = "jdbc:oracle:thin:@localhost:1521:xe";
-                String dbUser = "C##VUNGNUOI";
-                String dbPassword = "vungnuoi";
-                connection = DriverManager.getConnection(url, dbUser, dbPassword);
+        // Xóa tài khoản khỏi cơ sở dữ liệu
+        String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:xe"; 
+        String dbUsername = "C##VUNGNUOI"; 
+        String dbPassword = "vungnuoi"; 
 
-                String sql = "DELETE FROM KhachHang WHERE MaKH = '" + maKH + "'";
-                stmt = connection.createStatement();
-                int rowsAffected = stmt.executeUpdate(sql);
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, dbUsername, dbPassword);
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM USERS WHERE USERNAME = ?")) {
 
-                if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(this, "Xóa khách hàng thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    loadCustomerData();  
-                } else {
-                    JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng để xóa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                }
+            preparedStatement.setString(1, username);
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Lỗi khi xóa khách hàng.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            } finally {
-                try {
-                    if (stmt != null) stmt.close();
-                    if (connection != null) connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Tài khoản đã được xóa thành công.");
+                // Xóa dòng trong JTable
+                ((DefaultTableModel) table_thongtinKH.getModel()).removeRow(selectedRow);
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy tài khoản để xóa.");
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa tài khoản: " + e.getMessage());
         }
     }//GEN-LAST:event_btn_XoaTaikhoanActionPerformed
 

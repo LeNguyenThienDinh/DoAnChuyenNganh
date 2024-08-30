@@ -44,6 +44,7 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
         txt_TenKhachHang = new javax.swing.JTextField();
         txt_DiaChi = new javax.swing.JTextField();
         txt_SoDienThoai = new javax.swing.JTextField();
+        btn_return = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,6 +67,13 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
 
         jLabel6.setText("Số điện thoại");
 
+        btn_return.setText("Trở về");
+        btn_return.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_returnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,10 +84,12 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
                         .addGap(87, 87, 87)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6))
+                            .addComponent(jLabel6)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btn_DangKy)
+                                .addComponent(jLabel3)))
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(DKY_TaiKhoan)
@@ -91,8 +101,8 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
                         .addGap(135, 135, 135)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(btn_DangKy)))
+                        .addGap(241, 241, 241)
+                        .addComponent(btn_return)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -121,7 +131,9 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(txt_SoDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(btn_DangKy)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_DangKy)
+                    .addComponent(btn_return))
                 .addGap(40, 40, 40))
         );
 
@@ -167,10 +179,21 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
             qlKhachHangFrame.setVisible(true);
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lỗi khi tạo người dùng: " + e.getMessage());
+            if (e.getErrorCode() == 1) 
+            { 
+                JOptionPane.showMessageDialog(this, "Khách hàng đã tồn tại.");
+            } else {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Lỗi khi tạo người dùng: " + e.getMessage());
+            }
         }
     }//GEN-LAST:event_btn_DangKyActionPerformed
+
+    private void btn_returnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_returnActionPerformed
+        this.dispose();
+        frmQLKhachHang qlKhachHangFrame = new frmQLKhachHang();
+        qlKhachHangFrame.setVisible(true);
+    }//GEN-LAST:event_btn_returnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,6 +234,7 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
     private javax.swing.JTextField DKY_MatKhau;
     private javax.swing.JTextField DKY_TaiKhoan;
     private javax.swing.JButton btn_DangKy;
+    private javax.swing.JButton btn_return;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
