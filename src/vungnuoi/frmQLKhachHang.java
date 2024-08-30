@@ -35,23 +35,20 @@ public class frmQLKhachHang extends javax.swing.JFrame {
         DefaultTableModel model = new DefaultTableModel();
 
         try {
-            // Tạo kết nối đến cơ sở dữ liệu Oracle
+
             String url = "jdbc:oracle:thin:@localhost:1521:xe";
             String dbUser = "C##VUNGNUOI";
             String dbPassword = "vungnuoi";
             connection = DriverManager.getConnection(url, dbUser, dbPassword);
 
-            // Truy vấn dữ liệu từ cơ sở dữ liệu
             String sql = "SELECT u.USERNAME, u.MaKH, k.TENKH, k.DIACHI, k.SODIENTHOAI "
                        + "FROM USERS u "
                        + "JOIN KhachHang k ON u.MaKH = k.MaKH";
             stmt = connection.createStatement();
             rs = stmt.executeQuery(sql);
 
-            // Đặt tên cột cho DefaultTableModel
             model.setColumnIdentifiers(new String[]{"Username", "Mã KH", "Tên KH", "Địa chỉ", "Số điện thoại"});
 
-            // Đọc dữ liệu từ ResultSet và thêm vào model
             while (rs.next()) {
                 Object[] row = new Object[5];
                 row[0] = rs.getString("USERNAME");
@@ -62,14 +59,12 @@ public class frmQLKhachHang extends javax.swing.JFrame {
                 model.addRow(row);
             }
 
-            // Đặt model cho JTable
             table_thongtinKH.setModel(model);
 
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu khách hàng.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         } finally {
-            // Đóng kết nối
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
@@ -226,8 +221,20 @@ public class frmQLKhachHang extends javax.swing.JFrame {
 
     private void btn_ChinhSuaTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ChinhSuaTaiKhoanActionPerformed
 
-        frmChinhSuaTaiKhoan chinhSuaTaiKhoanFrame = new frmChinhSuaTaiKhoan();
-        chinhSuaTaiKhoanFrame.setVisible(true);
+        int selectedRow = table_thongtinKH.getSelectedRow();
+
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một khách hàng để chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String username = table_thongtinKH.getValueAt(selectedRow, 0).toString();
+        String tenKhachHang = table_thongtinKH.getValueAt(selectedRow, 2).toString();
+        String diaChi = table_thongtinKH.getValueAt(selectedRow, 3).toString();
+        String sdt = table_thongtinKH.getValueAt(selectedRow, 4).toString();
+
+        frmChinhSuaTaiKhoan chinhSuaFrame = new frmChinhSuaTaiKhoan(username, tenKhachHang, diaChi, sdt);
+        chinhSuaFrame.setVisible(true);
     }//GEN-LAST:event_btn_ChinhSuaTaiKhoanActionPerformed
 
     /**

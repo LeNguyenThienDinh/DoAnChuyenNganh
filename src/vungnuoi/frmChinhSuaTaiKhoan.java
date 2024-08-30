@@ -3,6 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vungnuoi;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -13,8 +23,12 @@ public class frmChinhSuaTaiKhoan extends javax.swing.JFrame {
     /**
      * Creates new form frmChinhSuaTaiKhoan
      */
-    public frmChinhSuaTaiKhoan() {
+    public frmChinhSuaTaiKhoan(String username, String tenKhachHang, String diaChi, String sdt) {
         initComponents();
+        txt_EditTenDangNhap.setText(username);
+        txt_EditTenKhachHang.setText(tenKhachHang);
+        txt_EditDiaChi.setText(diaChi);
+        txt_EditSĐT.setText(sdt);
     }
 
     /**
@@ -27,24 +41,20 @@ public class frmChinhSuaTaiKhoan extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txt_EditTenDangNhap = new javax.swing.JTextField();
-        txt_EditMatKhau = new javax.swing.JTextField();
         txt_EditTenKhachHang = new javax.swing.JTextField();
         txt_EditDiaChi = new javax.swing.JTextField();
         txt_EditSĐT = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_UpdateKH = new javax.swing.JButton();
+        btn_exit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Tên Đăng nhập");
-
-        jLabel2.setText("Mật khẩu");
 
         jLabel3.setText("Tên Khách hàng");
 
@@ -54,9 +64,19 @@ public class frmChinhSuaTaiKhoan extends javax.swing.JFrame {
 
         jLabel6.setText("CHỈNH SỬA THÔNG TIN KHÁCH HÀNG");
 
-        jButton1.setText("Cập nhật");
+        btn_UpdateKH.setText("Cập nhật");
+        btn_UpdateKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_UpdateKHActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Thoát");
+        btn_exit.setText("Thoát");
+        btn_exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_exitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,22 +88,20 @@ public class frmChinhSuaTaiKhoan extends javax.swing.JFrame {
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txt_EditTenDangNhap)
-                            .addComponent(txt_EditMatKhau)
                             .addComponent(txt_EditTenKhachHang)
                             .addComponent(txt_EditDiaChi)
                             .addComponent(txt_EditSĐT, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(92, 92, 92)
-                        .addComponent(jButton1)
+                        .addComponent(btn_UpdateKH)
                         .addGap(149, 149, 149)
-                        .addComponent(jButton2))
+                        .addComponent(btn_exit))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(111, 111, 111)
                         .addComponent(jLabel6)))
@@ -98,11 +116,7 @@ public class frmChinhSuaTaiKhoan extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txt_EditTenDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_EditMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGap(79, 79, 79)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txt_EditTenKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -116,13 +130,51 @@ public class frmChinhSuaTaiKhoan extends javax.swing.JFrame {
                     .addComponent(txt_EditSĐT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btn_UpdateKH)
+                    .addComponent(btn_exit))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_UpdateKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_UpdateKHActionPerformed
+        String username = txt_EditTenDangNhap.getText();
+        String tenKhachHang = txt_EditTenKhachHang.getText();
+        String diaChi = txt_EditDiaChi.getText();
+        String sdt = txt_EditSĐT.getText();
+
+        String updateQuery = "UPDATE KhachHang SET TENKH = ?, DIACHI = ?, SODIENTHOAI = ? "
+                            + "WHERE MaKH = (SELECT MaKH FROM USERS WHERE USERNAME = ?)";
+
+        try (Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "C##VUNGNUOI", "vungnuoi");
+             PreparedStatement pst = con.prepareStatement(updateQuery)) {
+
+            pst.setString(1, tenKhachHang);
+            pst.setString(2, diaChi);
+            pst.setString(3, sdt);
+            pst.setString(4, username);
+
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Cập nhật thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi cập nhật dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_UpdateKHActionPerformed
+
+    private void btn_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitActionPerformed
+        this.dispose();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new frmQLKhachHang().setVisible(true);
+            }
+        });
+    }//GEN-LAST:event_btn_exitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,22 +206,20 @@ public class frmChinhSuaTaiKhoan extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmChinhSuaTaiKhoan().setVisible(true);
+                new frmQLKhachHang().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_UpdateKH;
+    private javax.swing.JButton btn_exit;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txt_EditDiaChi;
-    private javax.swing.JTextField txt_EditMatKhau;
     private javax.swing.JTextField txt_EditSĐT;
     private javax.swing.JTextField txt_EditTenDangNhap;
     private javax.swing.JTextField txt_EditTenKhachHang;
