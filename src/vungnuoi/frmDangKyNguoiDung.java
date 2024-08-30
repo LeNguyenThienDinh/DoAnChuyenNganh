@@ -106,6 +106,7 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
 
         String username = DKY_TaiKhoan.getText();
         String password = DKY_MatKhau.getText();
+        String role = "USER"; // Hoặc giá trị role tương ứng (ví dụ: "ADMIN")
 
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Tài khoản và mật khẩu không được để trống.");
@@ -113,12 +114,13 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
         }
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, dbUsername, dbPassword);
-             CallableStatement callableStatement = connection.prepareCall("{call Tao_NguoiDung(?, ?)}")) {
+             CallableStatement callableStatement = connection.prepareCall("{call Tao_NguoiDung(?, ?, ?)}")) {
 
             callableStatement.setString(1, username);
             callableStatement.setString(2, password);
+            callableStatement.setString(3, role);
 
-            // goi chay procedure
+            // Gọi thực thi procedure
             callableStatement.execute();
 
             JOptionPane.showMessageDialog(this, "Người dùng đã được tạo thành công.");

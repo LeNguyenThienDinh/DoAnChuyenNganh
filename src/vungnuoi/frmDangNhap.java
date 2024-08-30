@@ -141,16 +141,15 @@ public class frmDangNhap extends javax.swing.JFrame {
 
             if ("SUCCESS".equals(result)) {
                 if ("ADMIN".equals(role)) {
-                    System.out.println("Xin chào Admin");
+                    JOptionPane.showMessageDialog(this, "Xin chào Admin!!", "Thông báo",JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                     frmQLKhachHang qlKhachHangFrame = new frmQLKhachHang();
                     qlKhachHangFrame.setVisible(true);
                 } else {
-                    System.out.println("Xin chào Khách hàng");
-                    // hien tghi frm nguoi dung (doi sau)
+                    JOptionPane.showMessageDialog(this, "Xin chào khách hàng!!", "Thông báo",JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
-                    frmQLKhachHang qlKhachHangFrame = new frmQLKhachHang();
-                    qlKhachHangFrame.setVisible(true);
+                    frmKhachHang khachHangFrame = new frmKhachHang();
+                    khachHangFrame.setVisible(true);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Tài khoản hoặc mật khẩu không chính xác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
