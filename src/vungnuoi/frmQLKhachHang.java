@@ -21,6 +21,12 @@ public class frmQLKhachHang extends javax.swing.JFrame {
     /**
      * Creates new form frmQLKhachHang
      */
+    
+    public frmQLKhachHang() {
+        initComponents();
+        loadCustomerData();
+        this.pack();
+    }
     private void loadCustomerData() 
     {
         Connection connection = null;
@@ -72,10 +78,6 @@ public class frmQLKhachHang extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         }
-    }
-    public frmQLKhachHang() {
-        initComponents();
-        loadCustomerData();
     }
 
     /**
@@ -163,20 +165,20 @@ public class frmQLKhachHang extends javax.swing.JFrame {
                         .addGap(80, 80, 80)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_DkyTaiKhoan)
-                        .addGap(32, 32, 32)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
-                            .addComponent(btn_ChinhSuaTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                            .addComponent(btn_XoaTaikhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_DkyTaiKhoan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1)
+                                .addComponent(btn_ChinhSuaTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                                .addComponent(btn_XoaTaikhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -198,8 +200,9 @@ public class frmQLKhachHang extends javax.swing.JFrame {
                         .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(btn_DkyTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_ChinhSuaTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_XoaTaikhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -222,7 +225,7 @@ public class frmQLKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_DangXuatActionPerformed
 
     private void btn_ChinhSuaTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ChinhSuaTaiKhoanActionPerformed
-        this.dispose();
+
         frmChinhSuaTaiKhoan chinhSuaTaiKhoanFrame = new frmChinhSuaTaiKhoan();
         chinhSuaTaiKhoanFrame.setVisible(true);
     }//GEN-LAST:event_btn_ChinhSuaTaiKhoanActionPerformed
