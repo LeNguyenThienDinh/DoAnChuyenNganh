@@ -3,6 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vungnuoi;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
 
 /**
  *
@@ -13,8 +21,61 @@ public class frmQLKhachHang extends javax.swing.JFrame {
     /**
      * Creates new form frmQLKhachHang
      */
+    private void loadCustomerData() 
+    {
+        Connection connection = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        DefaultTableModel model = new DefaultTableModel();
+
+        try {
+            // Tạo kết nối đến cơ sở dữ liệu Oracle
+            String url = "jdbc:oracle:thin:@localhost:1521:xe";
+            String dbUser = "C##VUNGNUOI";
+            String dbPassword = "vungnuoi";
+            connection = DriverManager.getConnection(url, dbUser, dbPassword);
+
+            // Truy vấn dữ liệu từ cơ sở dữ liệu
+            String sql = "SELECT u.USERNAME, u.MaKH, k.TENKH, k.DIACHI, k.SODIENTHOAI "
+                       + "FROM USERS u "
+                       + "JOIN KhachHang k ON u.MaKH = k.MaKH";
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(sql);
+
+            // Đặt tên cột cho DefaultTableModel
+            model.setColumnIdentifiers(new String[]{"Username", "Mã KH", "Tên KH", "Địa chỉ", "Số điện thoại"});
+
+            // Đọc dữ liệu từ ResultSet và thêm vào model
+            while (rs.next()) {
+                Object[] row = new Object[5];
+                row[0] = rs.getString("USERNAME");
+                row[1] = rs.getString("MaKH");
+                row[2] = rs.getString("TENKH");
+                row[3] = rs.getString("DIACHI");
+                row[4] = rs.getString("SODIENTHOAI");
+                model.addRow(row);
+            }
+
+            // Đặt model cho JTable
+            table_thongtinKH.setModel(model);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu khách hàng.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            // Đóng kết nối
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public frmQLKhachHang() {
         initComponents();
+        loadCustomerData();
     }
 
     /**
@@ -54,7 +115,7 @@ public class frmQLKhachHang extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table_thongtinKH);
 
-        jLabel2.setText("Tài Khoản khách hàng");
+        jLabel2.setText("Thông tin khách hàng");
 
         btn_DkyTaiKhoan.setText("Tạo tài khoản khách hàng");
         btn_DkyTaiKhoan.addActionListener(new java.awt.event.ActionListener() {
@@ -79,6 +140,11 @@ public class frmQLKhachHang extends javax.swing.JFrame {
         btn_XoaTaikhoan.setText("Xóa tài khoản");
 
         btn_ChinhSuaTaiKhoan.setText("Chỉnh sửa tài khoản");
+        btn_ChinhSuaTaiKhoan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ChinhSuaTaiKhoanActionPerformed(evt);
+            }
+        });
 
         btn_DangXuat.setText("Đăng xuất");
         btn_DangXuat.addActionListener(new java.awt.event.ActionListener() {
@@ -97,22 +163,21 @@ public class frmQLKhachHang extends javax.swing.JFrame {
                         .addGap(80, 80, 80)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_DkyTaiKhoan)
+                        .addGap(32, 32, 32)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(95, 95, 95)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btn_DkyTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_ChinhSuaTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_XoaTaikhoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_DangXuat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(52, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1)
+                            .addComponent(btn_ChinhSuaTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .addComponent(btn_XoaTaikhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,18 +188,22 @@ public class frmQLKhachHang extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_DkyTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btn_ChinhSuaTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_XoaTaikhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -151,6 +220,12 @@ public class frmQLKhachHang extends javax.swing.JFrame {
         frmDangNhap dangNhapFrame = new frmDangNhap();
         dangNhapFrame.setVisible(true);
     }//GEN-LAST:event_btn_DangXuatActionPerformed
+
+    private void btn_ChinhSuaTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ChinhSuaTaiKhoanActionPerformed
+        this.dispose();
+        frmChinhSuaTaiKhoan chinhSuaTaiKhoanFrame = new frmChinhSuaTaiKhoan();
+        chinhSuaTaiKhoanFrame.setVisible(true);
+    }//GEN-LAST:event_btn_ChinhSuaTaiKhoanActionPerformed
 
     /**
      * @param args the command line arguments

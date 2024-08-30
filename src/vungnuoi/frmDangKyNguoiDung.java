@@ -127,8 +127,8 @@ public class frmDangKyNguoiDung extends javax.swing.JFrame {
 
             this.dispose();
 
-            frmDangNhap dangNhapFrame = new frmDangNhap();
-            dangNhapFrame.setVisible(true);
+            frmQLKhachHang qlKhachHangFrame = new frmQLKhachHang();
+            qlKhachHangFrame.setVisible(true);
 
         } catch (SQLException e) {
             e.printStackTrace();
