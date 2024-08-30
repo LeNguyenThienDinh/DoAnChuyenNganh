@@ -27,10 +27,18 @@ public class frmKhachHang extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        btn_KHDangXuat = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("VÙNG NUÔI ABC");
+
+        btn_KHDangXuat.setText("Đăng xuất");
+        btn_KHDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_KHDangXuatActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -38,7 +46,9 @@ public class frmKhachHang extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(142, 142, 142)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_KHDangXuat)
+                    .addComponent(jLabel1))
                 .addContainerGap(168, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -46,11 +56,19 @@ public class frmKhachHang extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addContainerGap(249, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+                .addComponent(btn_KHDangXuat)
+                .addGap(74, 74, 74))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_KHDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_KHDangXuatActionPerformed
+        this.dispose();
+        frmDangNhap dangNhapFrame = new frmDangNhap();
+        dangNhapFrame.setVisible(true);
+    }//GEN-LAST:event_btn_KHDangXuatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -88,6 +106,7 @@ public class frmKhachHang extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_KHDangXuat;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
